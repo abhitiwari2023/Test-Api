@@ -3,6 +3,8 @@ package com.example.testapi;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,8 +19,10 @@ import com.android.volley.toolbox.Volley;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String URL = "https://jsonplaceholder.typicode.com/todos/1";
+    private final String URL = "https://api.restful-api.dev/objects/7";
+//    private final String URL = "https://run.mocky.io/v3/e5cbf85e-ffa1-4a81-8bbe-79435e25775c";
     private TextView txt;
+    private Button btn; // Declare a Button variable
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -26,9 +30,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-       txt = findViewById(R.id.txt1);
+        txt = findViewById(R.id.txt1);
+        btn = findViewById(R.id.btn); // Initialize the Button variable
 
-        RequestQueue rq = Volley.newRequestQueue(this);
+//        makeRequest();
+
+        btn.setOnClickListener(new View.OnClickListener() { // Add an OnClickListener to the Button
+            @Override
+            public void onClick(View v) {
+                onBtnClick(v); // Call onBtnClick() when the Button is clicked
+            }
+        });
+    }
+
+    private void onBtnClick(View view) {
+        makeRequest();
+    }
+
+    private void makeRequest() {
+        RequestQueue rq = Volley.newRequestQueue(MainActivity.this);
 
         StringRequest sq = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
             @Override
@@ -42,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Error Occur", Toast.LENGTH_SHORT).show();
             }
         });
-
         rq.add(sq);
     }
 }
